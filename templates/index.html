@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wake on Lan System</title>
+</head>
+<script src="{{ url_for('static', filename='jquery-3.6.0.min.js') }}"></script>
+<script>
+    function doWol() {
+        let mac = $("#mac-input").val();
+        $.ajax({
+          url: "/do-wol?mac="+mac,
+          type: "GET",
+          contentType: "application/json",
+          success: (res) => { alert(res);},
+          error: (res) => { alert(res);},
+        });
+        localStorage.setItem("mac_addr", mac);
+    }
+</script>
+<body>
+<h1>Wake on Lan System</h1>
+<span>This system will use the MAC address you provided to send a broadcast to the same broadcast domain (usually the same network segment). Devices with this MAC address will be awakened from sleep or shutdown state by the broadcast.</span>
+<br>
+<span style="color:red">!!!Warning: <a href="https://zhuanlan.zhihu.com/p/402972953?utm_id=0" target="_blank">Requires network card support and enabling this feature in BIOS</a></span>
+
+<hr>
+<div>
+    <label for="mac-input" id="mac-input-label" style="display: block;margin:  1rem 0">Click 'Wake up' after entering the MAC address.</label>
+
+    <input id="mac-input" type="text" name="mac" placeholder="xx:xx:xx:xx:xx:xx" style="display: inline-block;"/>
+    <button id="do-wol" class="btn btn-outline-primary" style="display: inline-block;" onclick='doWol()'>Wake up</button>
+</div>
+</body>
+</html>
